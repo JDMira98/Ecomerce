@@ -1,0 +1,44 @@
+.alert-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    max-width: 300px;
+}
+
+.alert-content {
+    /* Default color */
+    color: rgb(5, 5, 5);
+    border-radius: 8px;
+    padding: 15px;
+    font-size: 14px;
+    box-shadow: 0px 0px 10px rgba(17, 7, 7, 0.1);
+    
+    
+}
+
+.bg-success {
+    background-color: #28a745 !important;
+}
+
+.bg-danger {
+    background-color: #dc3545 !important;
+}
+
+.bg-warning {
+    background-color: #ffc107 !important;
+}
+
+.alert-fade {
+    animation: fadeout 3s forwards;
+}
+
+@keyframes fadeout {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
