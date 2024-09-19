@@ -1,9 +1,10 @@
 import Navbar from "../../../components/navbar/Navbar";
 import Sidebar from "../../../components/sidebar/Sidebar";
 import { useSelector } from "react-redux";
+import { UserInfo } from "../../../models";
 
 const Dashboard: React.FC = () => {
-  const userRole = useSelector((state) => state.user.role);
+  const userRole = useSelector((state: UserInfo) => state.user.rol);
   console.log(userRole)
   return (
     <>

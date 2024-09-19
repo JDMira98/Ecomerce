@@ -14,7 +14,7 @@ interface RegisterData {
   password: string;
   phone: string;
   role: string;
-  active: boolean;
+  active: number;
 }
 
 export const loginUser = async (loginData: LoginData) => {

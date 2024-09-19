@@ -5,4 +5,12 @@ export interface UserInfo {
   name: string;
   email: string;
   rol: Roles;
+  user:{
+    id: number;
+    name: string;
+    email: string;
+    rol: Roles;
+    phone: string;
+    active: number;
+  }
 }

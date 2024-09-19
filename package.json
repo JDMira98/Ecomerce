@@ -1,5 +1,6 @@
 {
   "name": "ecomerce",
+  "homepage": "https://JDMira98/Ecomerce/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -7,7 +8,9 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "bootstrap-icons": "^1.11.3",
@@ -26,5 +29,10 @@
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.1",
     "vite": "^5.4.1"
+  },
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "noEmitOnError": false,
+    "strict": false
   }
 }

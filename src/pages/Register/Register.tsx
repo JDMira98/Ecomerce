@@ -12,6 +12,7 @@ import "../../css/register.css"
 
 const Register: React.FC = () => {
   const [formValues, setFormValues] = useState<{
+    id: number;
     name: string;
     email: string;
     password: string;
@@ -19,6 +20,7 @@ const Register: React.FC = () => {
     role: string;
     active: number;
   }>({
+    id: 0,
     name: "",
     email: "",
     password: "",

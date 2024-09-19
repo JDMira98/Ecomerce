@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { PrivateRoutes, PublicRoutes, Roles } from "../../models";
+import { PrivateRoutes, PublicRoutes } from "../../models";
 import { createUser, resetUser, UserKey } from "../../redux/states/user";
 import { loginUser } from "../../services";
 import { clearLocalStorage } from "../../utilities";

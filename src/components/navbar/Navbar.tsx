@@ -1,7 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { Logout } from "../../components/logout";
-import { PrivateRoutes } from "../../models";
 
 const Navbar: React.FC = () => {
   return (
