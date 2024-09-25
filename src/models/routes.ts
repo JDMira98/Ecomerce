@@ -1,17 +1,17 @@
 export const PublicRoutes = {
-  LOGIN: "Ecomerce/login",
-  REGISTER: "Ecomerce/register",
+  LOGIN: "login",
+  REGISTER: "register",
 };
 
 export const PrivateRoutes = {
-  PRIVATE: "Ecomerce/private",
-  DASHBOARD: "Ecomerce/Dashboard",
-  HOME: "Ecomerce/Home",
+  PRIVATE: "private",
+  DASHBOARD: "dashboard", 
+  HOME: "home",
 };
 
 export const AdminRoutes = {
-  PRIVATE: "Ecomerce/private",
-  DASHBOARD: "Ecomerce/Dashboard",
-  USERS: "Ecomerce/Users",
-  HOME: "Ecomerce/Home",
+  PRIVATE: "private",
+  DASHBOARD: "dashboard",
+  USERS: "users", 
+  HOME: "home",
 };

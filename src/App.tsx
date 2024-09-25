@@ -1,6 +1,6 @@
 import { lazy, Suspense } from "react";
 import { Provider } from "react-redux";
-import { BrowserRouter, Navigate, Route } from "react-router-dom";
+import { HashRouter, Navigate, Route } from "react-router-dom";
 import "./App.css";
 import { AuthGuard, RoleGuard } from "./guards";
 import { AdminRoutes, PrivateRoutes, PublicRoutes, Roles } from "./models";
@@ -17,7 +17,7 @@ function App() {
     <div className="App">
       <Suspense fallback={<>Cargando</>}>
         <Provider store={store}>
-          <BrowserRouter>
+          <HashRouter>
             <RoutesWithNotFound>
               <Route
                 path="/"
@@ -39,7 +39,7 @@ function App() {
                 <Route path={AdminRoutes.USERS} element={<Users />} />
               </Route>
             </RoutesWithNotFound>
-          </BrowserRouter>
+          </HashRouter>
         </Provider>
       </Suspense>
     </div>

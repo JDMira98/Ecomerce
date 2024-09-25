@@ -175,7 +175,7 @@ const Register: React.FC = () => {
         </form>
         <div className="text-center mt-3">
           <p>
-            ¿Ya tienes una cuenta? <a href="/Login">Iniciar sesión.</a>
+            ¿Ya tienes una cuenta? <a href="#/login">Iniciar sesión.</a>
           </p>
         </div>
         {showAlert && <Alert message={alertMessage} type={alertType} />}
