@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { UserInfo } from "../../../models";
 
 const Users: React.FC = () => {
-  const userRole = useSelector((state: UserInfo) => state.rol);
+  const userRole = useSelector((state: UserInfo) => state.user.rol);
   return (
     <>
       <Navbar />
