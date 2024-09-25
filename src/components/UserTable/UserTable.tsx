@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { GetUsers } from "../../services";
+import { GetUsers, DisableUserPost, EnableUserPost } from "../../services";
 
-// Simula una llamada a la API que obtiene todos los usuarios
 const fetchUsers = async () => {
   const response = await GetUsers(0);
-  console.log("res: "+ response);
   if (response.output !== "Todos los usuarios retornados.") {
     throw new Error("Error al obtener los usuarios");
   }
-     const data = await response.users;
-     return data;
+  const data = await response.users;
+  return data;
 };
 
 const UserTable: React.FC = () => {
@@ -18,10 +16,11 @@ const UserTable: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Llamar a la API cuando el componente se monta
     fetchUsers()
       .then((data) => {
-        setUsers(data);
+        // Ordenar usuarios, primero habilitados (active === 1), luego deshabilitados (active === 0)
+        const sortedUsers = data.sort((a: any, b: any) => b.active - a.active);
+        setUsers(sortedUsers);
         setLoading(false);
       })
       .catch((err) => {
@@ -30,18 +29,44 @@ const UserTable: React.FC = () => {
       });
   }, []);
 
+  const handleToggleUser = async (userId: number, isActive: number) => {
+    try {
+      if (isActive === 0) {
+        // Si está deshabilitado (0), habilitar el usuario
+        await EnableUserPost(userId);
+      } else {
+        // Si está habilitado (1), deshabilitar el usuario
+        await DisableUserPost(userId);
+      }
+
+      // Actualizar el estado de los usuarios
+      setUsers(
+        (prevUsers) =>
+          prevUsers
+            .map((user) =>
+              user.id === userId
+                ? { ...user, active: isActive === 0 ? 1 : 0 }
+                : user
+            )
+            .sort((a, b) => b.active - a.active) // Volver a ordenar después de cambiar el estado
+      );
+    } catch (err) {
+      console.error("Error al cambiar el estado del usuario:", err);
+    }
+  };
+
   if (loading) return <div>Cargando usuarios...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="container mt-5">
-      <h2 className="text-center mb-4">Lista de Usuarios</h2>
-      <table className="table table-bordered table-hover">
+      <table className="table table-bordered table-hover table-bg-semi-transparent">
         <thead className="thead-dark">
           <tr>
             <th>ID</th>
             <th>Nombre</th>
             <th>Email</th>
+            <th>Teléfono</th>
             <th>Rol</th>
             <th>Acciones</th>
           </tr>
@@ -49,22 +74,30 @@ const UserTable: React.FC = () => {
         <tbody>
           {users.length > 0 ? (
             users.map((user) => (
-              <tr key={user.id}>
+              <tr
+                key={user.id}
+                className={user.active === 0 ? "table-danger" : ""}
+              >
                 <td>{user.id}</td>
                 <td>{user.name}</td>
                 <td>{user.email}</td>
+                <td>{user.phone}</td>
                 <td>{user.role}</td>
                 <td>
-                  <button className="btn btn-primary btn-sm me-2">
-                    Editar
+                  <button
+                    className={`btn btn-${
+                      user.active === 0 ? "success" : "danger"
+                    } btn-sm`}
+                    onClick={() => handleToggleUser(user.id, user.active)}
+                  >
+                    {user.active === 0 ? "Habilitar" : "Deshabilitar"}
                   </button>
-                  <button className="btn btn-danger btn-sm">Eliminar</button>
                 </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan={5} className="text-center">
+              <td colSpan={6} className="text-center">
                 No se encontraron usuarios.
               </td>
             </tr>

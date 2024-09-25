@@ -2,6 +2,8 @@ const baseUrl = "https://localhost:7202/users/api/";
 const LoginUser = baseUrl + "login/LoginUser";
 const CreateUser = baseUrl + "CreateUser";
 const GetUser = baseUrl + "getUser";
+const DisableUser = baseUrl + "DisableUser";
+const EnableUser = baseUrl + "EnableUser";
 
 interface LoginData {
   email: string;
@@ -68,3 +70,36 @@ export const GetUsers = async (id: string | number) => {
   return response.json();
 };
 
+export const DisableUserPost = async (id: string | number) => {
+  const response = await fetch(DisableUser, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(id),
+  });
+
+  if (!response.ok) {
+    console.log(response);
+    throw new Error("Network response was not ok");
+  }
+
+  return response.json();
+};
+
+export const EnableUserPost = async (id: string | number) => {
+  const response = await fetch(EnableUser, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(id),
+  });
+
+  if (!response.ok) {
+    console.log(response);
+    throw new Error("Network response was not ok");
+  }
+
+  return response.json();
+};

@@ -1,0 +1,17 @@
+.principalContainer {
+    background-color: rgba(216, 216, 216, 0.126);
+    padding: 20px;
+    box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.3);
+    /* Más desplazamiento y desenfoque */
+}
+.backgound{
+        background-color: rgba(216, 216, 216, 0);
+}
+.table-bg-semi-transparent {
+    background-color: rgba(255, 255, 255, 0.8);
+    /* Fondo blanco con 80% de opacidad */
+    backdrop-filter: blur(5px);
+    /* Opción para agregar un pequeño efecto de desenfoque */
+    border-radius: 10px;
+    /* Esquinas redondeadas */
+}

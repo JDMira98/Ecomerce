@@ -19,8 +19,6 @@ const Users: React.FC = () => {
         <Sidebar userRole={userRole} />
 
         <div className="flex-grow-1 p-4">
-          <h1>Bienvenido al Users</h1>
-
           {/* Componente UserTable */}
           <UserTable />
         </div>

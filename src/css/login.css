@@ -2,7 +2,6 @@
     background-color: rgba(216, 216, 216, 0.329);
     padding: 20px;
     box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.3); /* Más desplazamiento y desenfoque */
-    
 }
 body {
     background-image: url('../assets/origami.png');
