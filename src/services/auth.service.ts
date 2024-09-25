@@ -1,13 +1,14 @@
 const baseUrl = "https://localhost:7202/users/api/";
 const LoginUser = baseUrl + "login/LoginUser";
 const CreateUser = baseUrl + "CreateUser";
+const GetUser = baseUrl + "getUser";
 
 interface LoginData {
   email: string;
   password: string;
 }
 
-interface RegisterData {
+interface Data {
   id: number;
   name: string;
   email: string;
@@ -33,13 +34,13 @@ export const loginUser = async (loginData: LoginData) => {
   return response.json();
 };
 
-export const RegisterUser = async (registerData: RegisterData) => {
+export const RegisterUser = async (Data: Data) => {
   const response = await fetch(CreateUser, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(registerData),
+    body: JSON.stringify(Data),
   });
 
   if (!response.ok) {
@@ -50,3 +51,20 @@ export const RegisterUser = async (registerData: RegisterData) => {
 
   return response.json();
 };
+
+export const GetUsers = async (id: string | number) => {
+  const response = await fetch(`${GetUser}?${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    console.log(response);
+    throw new Error("Network response was not ok");
+  }
+
+  return response.json();
+};
+
