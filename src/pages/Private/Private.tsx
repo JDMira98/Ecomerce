@@ -6,6 +6,7 @@ import { RoutesWithNotFound } from '../../utilities';
 
 const Dashboard = lazy(() => import('./Dashboard/Dashboard'));
 const Users = lazy(() => import("./Users/Users"));
+const Profile = lazy(() => import("./Profile/Profile"));
 
 function Private() {
   return (
@@ -13,6 +14,7 @@ function Private() {
       <Route path="/" element={<Navigate to={AdminRoutes.DASHBOARD} />} />
       <Route path={AdminRoutes.DASHBOARD} element={<Dashboard />} />
       <Route path={AdminRoutes.USERS} element={<Users />} />
+      <Route path={AdminRoutes.PROFILE} element={<Profile />} />
     </RoutesWithNotFound>
   );
 }

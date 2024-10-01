@@ -1,11 +1,14 @@
 import Navbar from "../../../components/navbar/Navbar";
 import Sidebar from "../../../components/sidebar/Sidebar";
 import { useSelector } from "react-redux";
-import { UserInfo } from "../../../models";
+import { UserInfo, Roles} from "../../../models";
+import { Navigate } from "react-router-dom";
 
 const Dashboard: React.FC = () => {
   const userRole = useSelector((state: UserInfo) => state.user.rol);
-  console.log(userRole)
+    if (userRole !== Roles.ADMIN) {
+      return <Navigate replace to="../../" />;
+    }
   return (
     <>
       <Navbar />

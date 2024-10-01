@@ -32,11 +32,9 @@ const UserTable: React.FC = () => {
   const handleToggleUser = async (userId: number, isActive: number) => {
     try {
       if (isActive === 0) {
-        // Si está deshabilitado (0), habilitar el usuario
-        await EnableUserPost(userId);
+        await EnableUserPost(userId); // Habilitar usuario
       } else {
-        // Si está habilitado (1), deshabilitar el usuario
-        await DisableUserPost(userId);
+        await DisableUserPost(userId); // Deshabilitar usuario
       }
 
       // Actualizar el estado de los usuarios
@@ -63,12 +61,24 @@ const UserTable: React.FC = () => {
       <table className="table table-bordered table-hover table-bg-semi-transparent">
         <thead className="thead-dark">
           <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Email</th>
-            <th>Teléfono</th>
-            <th>Rol</th>
-            <th>Acciones</th>
+            <th>
+              <i className="bi bi-person-badge"></i> ID
+            </th>
+            <th>
+              <i className="bi bi-person"></i> Nombre
+            </th>
+            <th>
+              <i className="bi bi-envelope"></i> Email
+            </th>
+            <th>
+              <i className="bi bi-telephone"></i> Teléfono
+            </th>
+            <th>
+              <i className="bi bi-people"></i> Rol
+            </th>
+            <th>
+              <i className="bi bi-gear"></i> Acciones
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -87,10 +97,18 @@ const UserTable: React.FC = () => {
                   <button
                     className={`btn btn-${
                       user.active === 0 ? "success" : "danger"
-                    } btn-sm`}
+                    } btn-sm me-2`}
                     onClick={() => handleToggleUser(user.id, user.active)}
                   >
-                    {user.active === 0 ? "Habilitar" : "Deshabilitar"}
+                    {user.active === 0 ? (
+                      <>
+                        <i className="bi bi-check-circle me-1"></i> Habilitar
+                      </>
+                    ) : (
+                      <>
+                        <i className="bi bi-x-circle me-1"></i> Deshabilitar
+                      </>
+                    )}
                   </button>
                 </td>
               </tr>

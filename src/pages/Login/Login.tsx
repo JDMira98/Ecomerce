@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { PrivateRoutes, PublicRoutes } from "../../models";
+import { PublicRoutes } from "../../models";
 import { createUser, resetUser, UserKey } from "../../redux/states/user";
 import { loginUser } from "../../services";
 import { clearLocalStorage } from "../../utilities";
@@ -56,7 +56,7 @@ const Login: React.FC = () => {
       const result = await loginUser(formValues); // Aquí haces la petición a la API
 
       dispatch(createUser({ ...result, rol: result.role }));
-      navigate(`/${PrivateRoutes.PRIVATE}`, { replace: true });
+      navigate(`/`, { replace: true });
     } catch (error) {
       console.error("Login failed:", error);
       setError("Error al iniciar sesión. Por favor intenta de nuevo.");

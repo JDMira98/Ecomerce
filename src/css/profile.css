@@ -1,0 +1,17 @@
+/* Ajustes para la posición del formulario */
+.profile-form-container {
+    width: 50%;
+    /* Ancho del formulario */
+    padding: 30px;
+    /* Espaciado interno */
+    background-color: rgba(178, 178, 178, 0.171);
+    /* Gris semitransparente */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Sombra alrededor */
+    border-radius: 8px;
+    /* Bordes redondeados */
+    height: 80%;
+    /* Altura automática según el contenido */
+
+
+}

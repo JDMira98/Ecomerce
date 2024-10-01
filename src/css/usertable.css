@@ -2,6 +2,15 @@
     background-color: rgba(216, 216, 216, 0.126);
     padding: 20px;
     box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.3);
+        background-image: url('../assets/origami.png');
+            background-size: cover;
+            /* Hace que la imagen ocupe toda la pantalla */
+            background-position: center;
+            /* Centra la imagen */
+            background-repeat: no-repeat;
+            /* Evita que la imagen se repita */
+            background-size: 500px 300px;
+            /* Ancho x Alto específicos */
     /* Más desplazamiento y desenfoque */
 }
 .backgound{
@@ -14,4 +23,5 @@
     /* Opción para agregar un pequeño efecto de desenfoque */
     border-radius: 10px;
     /* Esquinas redondeadas */
+    
 }
