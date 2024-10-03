@@ -123,12 +123,12 @@ const Register: React.FC = () => {
     <div className="d-flex justify-content-center align-items-center vh-100">
       <div className="col-md-4 principalContainer">
         <h3 className="text-center">Registrarse</h3>
-        <form onSubmit={handleSubmit}>
+        <form autoComplete="off" onSubmit={handleSubmit}>
           <div className="form-group mb-3">
             <label htmlFor="name">Nombre</label>
             <input
               type="text"
-              className="form-control"
+              className="form-control input"
               id="name"
               placeholder="Nombre completo"
               value={formValues.name}
@@ -139,7 +139,7 @@ const Register: React.FC = () => {
             <label htmlFor="email">Email</label>
             <input
               type="email"
-              className="form-control"
+              className="form-control input"
               id="email"
               placeholder="Enter email"
               value={formValues.email}
@@ -150,7 +150,7 @@ const Register: React.FC = () => {
             <label htmlFor="phone">Teléfono</label>
             <input
               type="text"
-              className="form-control"
+              className="form-control input"
               id="phone"
               placeholder="Teléfono"
               value={formValues.phone}
@@ -161,7 +161,8 @@ const Register: React.FC = () => {
             <label htmlFor="password">Password</label>
             <input
               type="password"
-              className="form-control"
+              autoComplete="new-password"
+              className="form-control input"
               id="password"
               placeholder="Crea una contraseña"
               value={formValues.password}

@@ -13,20 +13,25 @@ function AuthButton() {
   // Obtener el id del usuario desde el estado de Redux
   const userId = useSelector((state: UserInfo) => state.user.id);
 
-  const HandleAuth = () => {
+  const HandleAuthLogout = () => {
     clearLocalStorage(UserKey);
     dispatch(resetUser());
-    navigate("/"+PublicRoutes.LOGIN, { replace: true });
+    navigate("/", { replace: true });
   };
+    const HandleAuthLogin = () => {
+      clearLocalStorage(UserKey);
+      dispatch(resetUser());
+      navigate("/" + PublicRoutes.LOGIN, { replace: true });
+    };
 
   return (
     <>
       {userId !== 0 ? (
-        <button className="btn btn-outline-danger" onClick={HandleAuth}>
+        <button className="btn btn-outline-danger" onClick={HandleAuthLogout}>
           <i className="bi bi-box-arrow-right"></i> Logout
         </button>
       ) : (
-        <button className="btn btn-outline-primary" onClick={HandleAuth}>
+        <button className="btn btn-outline-primary" onClick={HandleAuthLogin}>
           <i className="bi bi-box-arrow-in-right"></i> Login
         </button>
       )}

@@ -1,0 +1,30 @@
+/* Estilos personalizados para el modal */
+.modal-content {
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.modal-header {
+    border-bottom: 1px solid #ddd;
+}
+
+.modal-footer {
+    border-top: 1px solid #ddd;
+}
+
+button {
+    margin-left: 10px;
+}
+/* Ajusta la imagen del producto a 100px de altura */
+.product-image {
+    height: 100px;
+    object-fit: cover;
+}
+
+/* Ajusta el contenedor de contenido para que no quede debajo del Sidebar */
+.content-container {
+    flex: 1;
+    margin-left: 10px;
+    /* Ajusta este valor según el ancho de tu Sidebar */
+    padding: 20px;
+}

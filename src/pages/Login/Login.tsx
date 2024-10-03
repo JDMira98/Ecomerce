@@ -73,7 +73,7 @@ const Login: React.FC = () => {
               <label htmlFor="email">Email</label>
               <input
                 type="email"
-                className="form-control"
+                className="form-control input"
                 id="email"
                 placeholder="Enter email"
                 value={formValues.email}
@@ -84,7 +84,7 @@ const Login: React.FC = () => {
               <label htmlFor="password">Password</label>
               <input
                 type="password"
-                className="form-control"
+                className="form-control input"
                 id="password"
                 placeholder="Password"
                 value={formValues.password}

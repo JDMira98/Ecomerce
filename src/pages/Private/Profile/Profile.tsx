@@ -6,10 +6,10 @@ import { UserKey, updateUser } from "../../../redux/states/user"; // Ajusta esto
 import { clearLocalStorage } from "../../../utilities"; // Para limpiar datos si es necesario
 import Navbar from "../../../components/navbar/Navbar";
 import Sidebar from "../../../components/sidebar/Sidebar";
-import { UserInfo, Roles } from "../../../models";
 import "../../../css/profile.css"; // Importa el archivo CSS para estilos personalizados
 import Alert from "../../../components/alert/Alert";
 import { Navigate } from "react-router-dom";
+import { UserInfo, Roles } from "../../../models";
 
 const Profile: React.FC = () => {
 

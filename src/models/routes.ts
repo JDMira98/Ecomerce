@@ -14,6 +14,7 @@ export const AdminRoutes = {
   PROFILE: "profile",
   PRIVATE: "private",
   DASHBOARD: "dashboard",
-  USERS: "users", 
+  USERS: "users",
+  PRODUCTS: "products",
   HOME: "home",
 };

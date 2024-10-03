@@ -5,6 +5,11 @@ const GetUser = baseUrl + "getUser";
 const DisableUser = baseUrl + "DisableUser";
 const EnableUser = baseUrl + "EnableUser";
 const UpdateUser = baseUrl + "UpdateUser";
+const AddProduct = baseUrl + "Products/AddProduct";
+const GetProduct = baseUrl + "Products/getProduct";
+const UpdateProduct = baseUrl + "Products/UpdateProduct";
+const DisableProduct = baseUrl + "Products/DisableProduct";
+const EnableProduct = baseUrl + "Products/EnableProduct";
 
 interface LoginData {
   email: string;
@@ -26,6 +31,16 @@ interface DataProfile {
   name: string;
   email: string;
   phone: string;
+}
+
+interface Product {
+  id: number;
+  name: string;
+  price: number; // Asegúrate de que esto sea un número
+  image: string; // Cambié a File para que coincida con el archivo de imagen
+  desc: string;
+  category: string;
+  active: number;
 }
 
 export const loginUser = async (loginData: LoginData) => {
@@ -56,25 +71,24 @@ export const RegisterUser = async (Data: Data) => {
   if (!response.ok) {
     console.log(response);
     throw new Error("Network response was not ok");
-    
   }
 
   return response.json();
 };
 
-export const GetUsers = async (id:number) => {
- const response = await fetch(`${GetUser}?id=${id}`, {
-   method: "GET",
-   headers: {
-     "Content-Type": "application/json",
-   },
- });
+export const GetUsers = async (id: number) => {
+  const response = await fetch(`${GetUser}?id=${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
   if (!response.ok) {
     console.log(response);
     throw new Error("Network response was not ok");
   }
- console.log(response);
+  console.log(response);
   return response.json();
 };
 
@@ -120,10 +134,91 @@ export const UpdateUserPost = async (Data: DataProfile) => {
     },
     body: JSON.stringify(Data),
   });
-
   if (!response.ok) {
     console.log(response);
     throw new Error("Network response was not ok");
   }
   return response.json();
+};
+
+// Cambiado para recibir FormData
+export const AddProductPost = async (formData: Product) => {
+  const response = await fetch(AddProduct, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData), // Usar el FormData aquí
+    // No incluimos el header "Content-Type" porque FormData lo gestiona automáticamente
+  });
+
+  if (!response.ok) {
+    console.log(response);
+    throw new Error("Network response was not ok");
+  }
+
+  return response.json();
+};
+
+export const GetProducts= async (id: number) => {
+  const response = await fetch(`${GetProduct}?id=${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    console.log(response);
+    throw new Error("Network response was not ok");
+  }
+  console.log(response);
+  return response.json();
+};
+
+export const UpdateProductPost = async (formData: Product) => {
+  const response = await fetch(UpdateProduct, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  });
+
+  if (!response.ok) {
+    console.log(response);
+    throw new Error("Network response was not ok");
+  }
+
+  return response.json();
+};
+
+export const DisableProductPost = async (id: number) => {
+  const response = await fetch(DisableProduct, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(id),
+  });
+
+  if (!response.ok) {
+    console.log(response);
+    throw new Error("Network response was not ok");
+  }
+}
+
+export const EnableProductPost = async (id: number) => {
+  const response = await fetch(EnableProduct, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(id),
+  });
+
+  if (!response.ok) {
+    console.log(response);
+    throw new Error("Network response was not ok");
+  }
 };

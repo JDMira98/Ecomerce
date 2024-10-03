@@ -4,7 +4,7 @@ function Sidebar({ userRole }) {
   return (
     <div
       className="d-flex flex-column p-3 bg-light"
-      style={{ width: "250px", height: "100vh" }}
+      style={{ width: "250px", height: "100%" }}
     >
       <h2>Módulos</h2>
       <ul className="nav nav-pills flex-column mb-auto">
@@ -33,6 +33,16 @@ function Sidebar({ userRole }) {
                 }
               >
                 Usuarios
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="../../private/Products"
+                className={({ isActive }) =>
+                  isActive ? "nav-link active" : "nav-link"
+                }
+              >
+                Productos
               </NavLink>
             </li>
           </>
