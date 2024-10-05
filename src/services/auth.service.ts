@@ -37,7 +37,7 @@ interface Product {
   id: number;
   name: string;
   price: number; // Asegúrate de que esto sea un número
-  image: string; // Cambié a File para que coincida con el archivo de imagen
+  images: string; // Cambié a File para que coincida con el archivo de imagen
   desc: string;
   category: string;
   active: number;

@@ -1,0 +1,48 @@
+/* Ajustar las tarjetas para que tengan un tamaño consistente */
+.cardstoreitems {
+    width: 100%;
+    max-width: 300px;
+    height: 100%;
+    margin: 5px 0;
+        /* Reducir el margen superior e inferior */
+    /* Reducir el margen entre las tarjetas */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Control de la imagen dentro de las tarjetas */
+.imgcontrol {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* Ajustar el contenedor del slider */
+.slick-slide {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+        /* Eliminar padding interno de los slides */
+        margin: 0 -30px;
+        /* Reducir el margen entre las tarjetas */
+}
+
+/* Estilo general para las imágenes y las cards */
+.card-body {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.buttoncart{
+    background-color: black;
+    color: white;
+}
+.buttoncart:hover {
+    background-color: rgba(178, 178, 178, 0.676);
+    /* Color de fondo en hover */
+    color: black;
+    /* Color de texto en hover */
+}

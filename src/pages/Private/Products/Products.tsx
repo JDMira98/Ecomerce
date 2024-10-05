@@ -21,7 +21,7 @@ interface Product {
   id: number;
   name: string;
   price: number;
-  image: string;
+  images: string[]; // Cambiado a un array de imágenes
   desc: string;
   category: string;
   active: number;
@@ -38,25 +38,46 @@ export default function ProductsPage() {
     "success"
   );
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await GetProducts(0);
-        if (response.products.length > 0) {
-          setProducts(response.products);
-        }
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    };
+useEffect(() => {
+  const fetchProducts = async () => {
+    try {
+      const response = await GetProducts(0);
+      if (response.products.length > 0) {
+        // Mapeamos los productos para asegurarnos de que las imágenes estén deserializadas
+        const deserializedProducts = response.products.map((product: Product) => {
+          // Intentamos deserializar images solo si es un string
+          let images;
+          if (typeof product.images === "string") {
+            try {
+              images = JSON.parse(product.images); // Intentamos deserializar
+            } catch (error) {
+              console.error("Error parsing images:", error);
+              images = []; // Asignar un array vacío si hay un error
+            }
+          } else {
+            images = product.images; // Si ya es un array, lo usamos directamente
+          }
 
-    fetchProducts();
-  }, []);
+          return {
+            ...product,
+            images, // Usar el array de imágenes
+          };
+        });
+
+        setProducts(deserializedProducts);
+      }
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
+
+  fetchProducts();
+}, []);
 
   const [newProduct, setNewProduct] = useState({
     name: "",
     price: 0,
-    image: "",
+    images: [""], // Cambiado a un array
     desc: "",
     category: "",
     active: 0,
@@ -77,7 +98,7 @@ export default function ProductsPage() {
       setNewProduct({
         name: "",
         price: 0,
-        image: "",
+        images: [""], // Array vacío
         desc: "",
         category: "",
         active: 0,
@@ -104,49 +125,86 @@ export default function ProductsPage() {
     }));
   };
 
-const handleSaveProduct = async () => {
-  try {
-    const NewproductPost = {
-      id: selectedProduct?.id ?? 0,
-      name: newProduct.name,
-      price: newProduct.price,
-      image: newProduct.image,
-      desc: newProduct.desc,
-      category: newProduct.category,
-      active: 1,
-    };
+  // Funciones para manejar las URLs de imágenes
+  const handleImageChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    const updatedImages = [...newProduct.images];
+    updatedImages[index] = e.target.value;
+    setNewProduct((prevProduct) => ({
+      ...prevProduct,
+      images: updatedImages,
+    }));
+  };
 
-    if (editMode && selectedProduct) {
-      const result = await UpdateProductPost(NewproductPost);
-      if (result) {
-        setProducts((prevProducts) =>
-          prevProducts.map((p) =>
-            p.id === selectedProduct.id ? NewproductPost : p
-          )
-        );
-        setAlertMessage("Producto actualizado correctamente.");
-        setAlertType("success");
+  const handleAddImage = () => {
+    setNewProduct((prevProduct) => ({
+      ...prevProduct,
+      images: [...prevProduct.images, ""],
+    }));
+  };
+
+  const handleRemoveImage = (index: number) => {
+    const updatedImages = newProduct.images.filter((_, i) => i !== index);
+    setNewProduct((prevProduct) => ({
+      ...prevProduct,
+      images: updatedImages,
+    }));
+  };
+
+  const handleSaveProduct = async () => {
+    try {
+      const NewproductPost = {
+        id: selectedProduct?.id ?? 0,
+        name: newProduct.name,
+        price: newProduct.price,
+        images: newProduct.images, // Usar el array de imágenes
+        desc: newProduct.desc,
+        category: newProduct.category,
+        active: 1,
+      };
+      const NewproductPost1 = {
+        id: selectedProduct?.id ?? 0,
+        name: newProduct.name,
+        price: newProduct.price,
+        images: JSON.stringify(newProduct.images), // Usar el array de imágenes
+        desc: newProduct.desc,
+        category: newProduct.category,
+        active: 1,
+      };
+
+      if (editMode && selectedProduct) {
+        const result = await UpdateProductPost(NewproductPost1);
+        if (result) {
+          setProducts((prevProducts) =>
+            prevProducts.map((p) =>
+              p.id === selectedProduct.id ? NewproductPost : p
+            )
+          );
+          setAlertMessage("Producto actualizado correctamente.");
+          setAlertType("success");
+        }
+      } else {
+        const result = await AddProductPost(NewproductPost1);
+        if (result) {
+          setProducts((prevProducts) => [...prevProducts, NewproductPost]);
+          setAlertMessage("Producto agregado correctamente.");
+          setAlertType("success");
+        }
       }
-    } else {
-      const result = await AddProductPost(NewproductPost);
-      if (result) {
-        setProducts((prevProducts) => [...prevProducts, NewproductPost]);
-        setAlertMessage("Producto agregado correctamente.");
-        setAlertType("success");
-      }
+
+      setShowAlert(true);
+      setTimeout(() => setShowAlert(false), 3000);
+      setShowModal(false);
+    } catch (error) {
+      console.error("Error:", error);
+      setAlertType("error");
+      setAlertMessage("Error al guardar el producto.");
+      setShowAlert(true);
+      setTimeout(() => setShowAlert(false), 3000);
     }
-
-    setShowAlert(true);
-    setTimeout(() => setShowAlert(false), 3000);
-    setShowModal(false);
-  } catch (error) {
-    console.error("Error:", error);
-    setAlertType("error");
-    setAlertMessage("Error al guardar el producto.");
-    setShowAlert(true);
-    setTimeout(() => setShowAlert(false), 3000);
-  }
-};
+  };
 
   const handleToggleProduct = async (product: Product) => {
     try {
@@ -191,8 +249,7 @@ const handleSaveProduct = async () => {
               onClick={() => handleShow(null)}
               className="d-flex align-items-center"
             >
-              <i className="bi bi-plus me-2"></i>{" "}
-              {/* Icono de agregar de Bootstrap Icons */}
+              <i className="bi bi-plus me-2"></i>
               Agregar Producto
             </Button>
           </div>
@@ -202,36 +259,43 @@ const handleSaveProduct = async () => {
           ) : (
             <div className="row">
               {products
-                .sort((a, b) => b.active - a.active) // Ordenar por 'active', primero los activos (1) luego los inactivos (0)
+                .sort((a, b) => b.active - a.active)
                 .map((product) => (
                   <div className="col-md-4 mb-4" key={product.id}>
                     <Card className="h-100">
                       <Card.Img
                         variant="top"
-                        src={product.image}
+                        src={
+                          product.images && product.images.length > 0
+                            ? product.images[0]
+                            : undefined
+                        } // Validar que images no sea undefined y mostrar la primera imagen si existe
                         alt={product.name}
                         className="product-image"
                       />
+                      {(!product.images || product.images.length === 0) && (
+                        <div className="no-image-text">No hay imágenes</div> // Mensaje si no hay imágenes
+                      )}
                       <Card.Body>
                         <Card.Title>{product.name}</Card.Title>
                         <Card.Text>{product.category}</Card.Text>
-                        <Card.Text>{product.desc}</Card.Text>
                         <Card.Text>
                           <strong>Precio:</strong> ${product.price}
                         </Card.Text>
                         <div className="d-flex" style={{ gap: "10px" }}>
                           <Button
-                            variant="warning"
+                            variant="outline-warning"
                             onClick={() => handleShow(product)}
                             className="d-flex align-items-center"
                           >
                             <i className="bi bi-pencil me-2"></i>
                             Editar
                           </Button>
-
                           <Button
                             variant={
-                              product.active === 1 ? "danger" : "success"
+                              product.active === 1
+                                ? "outline-danger"
+                                : "outline-success"
                             }
                             onClick={() => handleToggleProduct(product)}
                             className="d-flex align-items-center"
@@ -262,13 +326,13 @@ const handleSaveProduct = async () => {
       <Modal
         show={showModal}
         onHide={handleClose}
-        backdrop="static"
-        keyboard={false}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
         centered
       >
         <Modal.Header closeButton>
           <Modal.Title>
-            {editMode ? "Editar Producto" : "Agregar Nuevo Producto"}
+            {editMode ? "Editar Producto" : "Agregar Producto"}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -281,23 +345,9 @@ const handleSaveProduct = async () => {
                 type="text"
                 className="form-control"
                 id="name"
-                placeholder="Nombre"
                 value={newProduct.name}
                 onChange={handleChange}
               />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="desc" className="form-label">
-                Descripción
-              </label>
-              <textarea
-                className="form-control"
-                id="desc"
-                rows={3}
-                placeholder="Descripción"
-                value={newProduct.desc}
-                onChange={handleChange}
-              ></textarea>
             </div>
             <div className="mb-3">
               <label htmlFor="price" className="form-label">
@@ -307,8 +357,52 @@ const handleSaveProduct = async () => {
                 type="number"
                 className="form-control"
                 id="price"
-                placeholder="0.00"
                 value={newProduct.price}
+                onChange={handleChange}
+              />
+            </div>
+
+            {/* Manejo de múltiples URLs de imágenes */}
+            {newProduct.images.length > 0 ? (
+              newProduct.images.map((image, index) => (
+                <div className="mb-3" key={index}>
+                  <label htmlFor={`image-${index}`} className="form-label">
+                    URL de Imagen {index + 1}
+                  </label>
+                  <div className="d-flex align-items-center">
+                    <input
+                      type="text"
+                      className="form-control"
+                      id={`image-${index}`}
+                      value={image}
+                      onChange={(e) => handleImageChange(e, index)}
+                    />
+                    <Button
+                      variant="danger"
+                      className="ms-2"
+                      onClick={() => handleRemoveImage(index)}
+                    >
+                      Eliminar
+                    </Button>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p>No hay imágenes. Agrega una imagen.</p>
+            )}
+
+            <Button variant="secondary" onClick={handleAddImage}>
+              Agregar otra imagen
+            </Button>
+
+            <div className="mb-3">
+              <label htmlFor="desc" className="form-label">
+                Descripción
+              </label>
+              <textarea
+                className="form-control"
+                id="desc"
+                value={newProduct.desc}
                 onChange={handleChange}
               />
             </div>
@@ -316,29 +410,11 @@ const handleSaveProduct = async () => {
               <label htmlFor="category" className="form-label">
                 Categoría
               </label>
-              <select
-                className="form-select"
-                id="category"
-                value={newProduct.category}
-                onChange={handleChange}
-              >
-                <option value="">Seleccione una categoría</option>
-                <option value="electronics">Electrónicos</option>
-                <option value="clothing">Ropa</option>
-                <option value="books">Libros</option>
-                <option value="home">Hogar</option>
-              </select>
-            </div>
-            <div className="mb-3">
-              <label htmlFor="image" className="form-label">
-                URL de la Imagen
-              </label>
               <input
                 type="text"
                 className="form-control"
-                id="image"
-                placeholder="URL de la Imagen"
-                value={newProduct.image}
+                id="category"
+                value={newProduct.category}
                 onChange={handleChange}
               />
             </div>
@@ -346,10 +422,10 @@ const handleSaveProduct = async () => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Cancelar
+            Cerrar
           </Button>
           <Button variant="primary" onClick={handleSaveProduct}>
-            Guardar Producto
+            {editMode ? "Guardar Cambios" : "Agregar Producto"}
           </Button>
         </Modal.Footer>
       </Modal>

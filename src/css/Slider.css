@@ -1,0 +1,32 @@
+/* Personalizar las flechas del slider con iconos de Bootstrap */
+.custom-prev-arrow,
+.custom-next-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2rem;
+    z-index: 1;
+    cursor: pointer;
+    color: #333;
+}
+
+.custom-prev-arrow {
+    left: -50px;
+    /* Ajustar según sea necesario */
+}
+
+.custom-next-arrow {
+    right: -40px;
+    /* Ajustar según sea necesario */
+}
+
+/* Estilo para el contenedor del slider */
+.slick-slide {
+    padding: 0 10px;
+    /* Ajusta el padding para que las tarjetas estén más juntas */
+}
+
+.slick-list {
+    margin: 0 -10px;
+    /* Ajusta para controlar el margen entre las tarjetas */
+}

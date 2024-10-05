@@ -3,7 +3,7 @@ import { Provider } from "react-redux";
 import { HashRouter, Route } from "react-router-dom";
 import "./App.css";
 import { AuthGuard, RoleGuard } from "./guards";
-import { AdminRoutes, PrivateRoutes, PublicRoutes, Roles } from "./models";
+import { AdminRoutes, PublicRoutes, Roles } from "./models";
 import { Dashboard, Users } from "./pages/Private";
 import store from "./redux/store";
 import { RoutesWithNotFound } from "./utilities";
@@ -15,6 +15,7 @@ const Login = lazy(() => import("./pages/Login/Login"));
 const Register = lazy(() => import("./pages/Register/Register"));
 const Private = lazy(() => import("./pages/Private/Private"));
 const Home = lazy(() => import("./pages/Home/Home"));
+const Order = lazy(() => import("./pages/Order/Order"));
 const Profile = lazy(() => import("./pages/Private/Profile/Profile"));
 const Products = lazy(() => import("./pages/Private/Products/Products"));
 
@@ -32,17 +33,15 @@ function App() {
                 <Route path={PublicRoutes.LOGIN} element={<Login />} />
                 <Route path={PublicRoutes.REGISTER} element={<Register />} />
                 <Route path="/product/:id" element={<ProductDetail />} />
+                <Route path={PublicRoutes.ORDER} element={<Order />} />
                 <Route element={<AuthGuard privateValidation={true} />}>
                   <Route
-                    path={`${PrivateRoutes.PRIVATE}/*`}
+                    path={`${AdminRoutes.PRIVATE}/*`}
                     element={<Private />}
                   />
                 </Route>
                 <Route element={<RoleGuard rol={Roles.USER} />}>
-                  <Route
-                    path={PrivateRoutes.DASHBOARD}
-                    element={<Dashboard />}
-                  />
+                  <Route path={AdminRoutes.DASHBOARD} element={<Dashboard />} />
                 </Route>
                 <Route element={<RoleGuard rol={Roles.ADMIN} />}>
                   <Route path={AdminRoutes.DASHBOARD} element={<Dashboard />} />

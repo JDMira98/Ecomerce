@@ -1,11 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import storeItems from "../../data/items.json";
 import { formatCurrency } from "../../utilities/formatCurrency";
 import "../../css/ProductDetail.css";
 import Navbar from "../../components/navbar/Navbar";
 import { useShoppingCart } from "../../context/ShoppingCartContext";
 import CartControl from "../../components/StoreItemButton/StoreItemButton";
+import { GetProducts } from "../../services";
+import BuyButton from "../../components/BuyButton/BuyButton"; // Asegúrate de importar el componente
+
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  images: string[]; // Cambiado a array de imágenes
+  desc: string;
+  category: string;
+  active: number;
+}
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -16,29 +27,46 @@ const ProductDetail = () => {
     removeFromCart,
   } = useShoppingCart();
 
-  // Usamos useState para la imagen principal, inicializamos con una imagen por defecto
-  const [mainImage, setMainImage] = useState("");
+  const [product, setProduct] = useState<Product | null>(null);
+  const [mainImage, setMainImage] = useState<string>(""); // Imagen principal
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const product = storeItems.find((item) => item.id === Number(id));
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const response = await GetProducts(Number(id)); // Obtener producto desde el servicio
+        const productData = response.products[0];
 
-  // Si el producto existe, asignamos la imagen principal solo después de buscar el producto
-  React.useEffect(() => {
-    if (product) {
-      setMainImage(product.imgUrl);
-    }
-  }, [product]);
+        // Deserializar imágenes (ya que vienen como un string JSON)
+        const images = JSON.parse(productData.images);
+
+        // Establecer el producto y la imagen principal
+        setProduct({ ...productData, images });
+        setMainImage(images[0] || ""); // Establecer la primera imagen como principal
+
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching product:", error);
+        setError("Error al cargar el producto");
+        setLoading(false);
+      }
+    };
+
+    fetchProduct();
+  }, [id]);
+
+  if (loading) {
+    return <h2>Cargando...</h2>;
+  }
+
+  if (error) {
+    return <h2>{error}</h2>;
+  }
 
   if (!product) {
     return <h2>Producto no encontrado</h2>;
   }
-
-  // Placeholder de imágenes adicionales
-  const productImages = [
-    product.imgUrl,
-    "./imgs/book.jpg",
-    "./imgs/car.jpg",
-    "./imgs/computer.jpg",
-  ];
 
   const quantity = getItemQuantity(Number(id));
 
@@ -52,7 +80,7 @@ const ProductDetail = () => {
 
           {/* Lista de imágenes adicionales */}
           <div className="image-gallery">
-            {productImages.map((imgSrc, index) => (
+            {product.images.map((imgSrc, index) => (
               <img
                 key={index}
                 src={imgSrc}
@@ -85,6 +113,13 @@ const ProductDetail = () => {
                 "No hay descripción disponible para este producto."}
             </p>
           </div>
+
+          {/* Botón de compra debajo de la descripción */}
+          {quantity > 0 ? (
+            <BuyButton  />
+          ) : (
+            <h1>Agrégalo al carrito!</h1>
+          )}
         </div>
       </div>
     </>

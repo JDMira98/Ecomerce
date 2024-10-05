@@ -1,5 +1,7 @@
 import React from "react";
 import { Button } from "react-bootstrap";
+import "../../css/storeItems.css"
+import "bootstrap-icons/font/bootstrap-icons.css"; // Importar los íconos de Bootstrap
 
 type CartControlProps = {
   quantity: number;
@@ -17,8 +19,9 @@ const CartControl = ({
   return (
     <div className="mt-auto">
       {quantity === 0 ? (
-        <Button className="w-100" onClick={increaseCartQuantity}>
-          + Add to Cart
+        <Button className="w-50 buttoncart" onClick={increaseCartQuantity}>
+          <i className="bi bi-cart"> </i>
+          Agregar
         </Button>
       ) : (
         <div
@@ -29,11 +32,15 @@ const CartControl = ({
             className="d-flex align-items-center justify-content-center"
             style={{ gap: ".5rem" }}
           >
-            <Button onClick={decreaseCartQuantity}>-</Button>
+            <Button className="buttoncart" onClick={decreaseCartQuantity}>
+              <i className="bi bi-dash"></i>
+            </Button>
             <div>
-              <span className="fs-3">{quantity}</span> in cart
+              <span className="fs-3">{quantity}</span> En carrito
             </div>
-            <Button onClick={increaseCartQuantity}>+</Button>
+            <Button className="buttoncart " onClick={increaseCartQuantity}>
+              <i className="bi bi-plus"></i>
+            </Button>
           </div>
           <Button variant="danger" size="sm" onClick={removeFromCart}>
             Remove

@@ -17,7 +17,7 @@ button {
 }
 /* Ajusta la imagen del producto a 100px de altura */
 .product-image {
-    height: 100px;
+    height: auto;
     object-fit: cover;
 }
 

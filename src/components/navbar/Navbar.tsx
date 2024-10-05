@@ -33,17 +33,17 @@ const Navbar: React.FC = () => {
         >
           {/* Menú de la derecha */}
           <ul className="navbar-nav ms-auto">
-            <li className="nav-item me-4" >
+            <li className="nav-item me-4">
               {/* Botón del carrito de compras */}
               {cartQuantity > 0 && (
                 <Button
                   onClick={openCart}
-                  variant="outline-primary"
-                  className="rounded-circle"
+                  className="rounded-circle outline-black"
                   style={{
                     width: "3rem",
                     height: "3rem",
                     position: "relative",
+                    borderColor: "black", // Agrega el borde negro aquí
                   }}
                 >
                   <svg

@@ -1,0 +1,25 @@
+.toBuybutton{
+    background-color: black;
+    /* Color de fondo negro */
+    color: white;
+    /* Color de texto blanco */
+    border: none;
+    /* Sin borde predeterminado */
+    border-radius: 0.25rem;
+    /* Bordes redondeados, ajusta según necesidad */
+    padding: 10px 20px;
+    /* Espaciado interno */
+    font-size: 1rem;
+    /* Tamaño de fuente */
+    cursor: pointer;
+    /* Cambia el cursor al pasar sobre el botón */
+    transition: background-color 0.3s, color 0.3s;
+    /* Transiciones suaves */
+}
+
+.toBuybutton:hover {
+    background-color: rgba(178, 178, 178, 0.676);
+    /* Color de fondo en hover */
+    color: black;
+    /* Color de texto en hover */
+}
