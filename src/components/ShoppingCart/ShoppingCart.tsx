@@ -68,7 +68,7 @@ export function ShoppingCart({ isOpen }: ShoppingCartProps) {
               marginTop:"25px"
             }}
             className="toBuybutton"
-            href="/#/order"
+            href="#/order"
           >
             Comprar
           </a>
