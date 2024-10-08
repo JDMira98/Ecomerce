@@ -8,6 +8,7 @@ const Dashboard = lazy(() => import('./Dashboard/Dashboard'));
 const Users = lazy(() => import("./Users/Users"));
 const Products = lazy(() => import("./Products/Products"));
 const Profile = lazy(() => import("./Profile/Profile"));
+const Categories = lazy(() => import("./Categories/Categories"));
 
 function Private() {
   return (
@@ -16,6 +17,7 @@ function Private() {
       <Route path={AdminRoutes.DASHBOARD} element={<Dashboard />} />
       <Route path={AdminRoutes.USERS} element={<Users />} />
       <Route path={AdminRoutes.PRODUCTS} element={<Products />} />
+      <Route path={AdminRoutes.CATEGORIES} element={<Categories />} />
       <Route path={AdminRoutes.PROFILE} element={<Profile />} />
     </RoutesWithNotFound>
   );

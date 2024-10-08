@@ -1,68 +1,88 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
-import { Col } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import { StoreItem } from "../../components/StoreItem";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { GetProducts } from "../../services";
-import "bootstrap-icons/font/bootstrap-icons.css"; // Importar los íconos de Bootstrap
-import "../../css/Slider.css"; // Añadir el CSS para las flechas
-import WhatsAppButton  from "../../components/WhatsappButton/WhatsappButton";
+import { GetProducts, GetCategoriesGET } from "../../services"; // Añadir GetCategories
+import "bootstrap-icons/font/bootstrap-icons.css";
+import "../../css/Slider.css";
+import WhatsAppButton from "../../components/WhatsappButton/WhatsappButton";
+import Banner from "../../components/Banner/Banner";
+
 function Home() {
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]); // Estado para las categorías
 
   interface Product {
     id: number;
     name: string;
     price: number;
-    images: string[]; // Cambiado a un array de imágenes
+    images: string[];
     desc: string;
     category: string;
     active: number;
   }
 
-  // Obtener productos al montar el componente
-  useEffect(() => {
-    async function fetchProducts() {
-      try {
-        const response = await GetProducts(0);
-        if (response.products.length > 0) {
-          const deserializedProducts = response.products.map(
-            (product: Product) => {
-              let images;
-              if (typeof product.images === "string") {
-                try {
-                  images = JSON.parse(product.images); // Intentamos deserializar
-                } catch (error) {
-                  console.error("Error parsing images:", error);
-                  images = []; // Asignar un array vacío si hay un error
-                }
-              } else {
-                images = product.images; // Si ya es un array, lo usamos directamente
-              }
-
-              return {
-                ...product,
-                images, // Usar el array de imágenes
-              };
-            }
-          );
-
-          const filteredProducts = deserializedProducts.filter(
-            (product) => product.active === 1 && product.images.length > 0
-          );
-
-          setProducts(filteredProducts);
-        }
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
+    interface Category {
+      id: number;
+      name: string;
+      desc: string;
+      active: number;
     }
-    fetchProducts();
-  }, []);
+
+  // Obtener productos y categorías al montar el componente
+useEffect(() => {
+  async function fetchData() {
+    try {
+      const [productsResponse, categoriesResponse] = await Promise.all([
+        GetProducts(0),
+        GetCategoriesGET(0), // Llamada a GetCategories
+      ]);
+
+      // Procesar productos
+      if (productsResponse.products.length > 0) {
+        const deserializedProducts = productsResponse.products.map(
+          (product: Product) => {
+            let images;
+            if (typeof product.images === "string") {
+              try {
+                images = JSON.parse(product.images);
+              } catch (error) {
+                console.error("Error parsing images:", error);
+                images = [];
+              }
+            } else {
+              images = product.images;
+            }
+
+            return { ...product, images };
+          }
+        );
+
+        const filteredProducts = deserializedProducts.filter(
+          (product) => product.active === 1 && product.images.length > 0
+        );
+        setProducts(filteredProducts);
+      }
+
+      // Procesar categorías y filtrar las que estén activas
+      if (categoriesResponse.categories.length > 0) {
+        const activeCategories = categoriesResponse.categories.filter(
+          (category: Category) => category.active === 1
+        );
+        setCategories(activeCategories); // Solo las categorías activas
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+  fetchData();
+}, []);
 
   // Componente para las flechas
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const NextArrow = (props: any) => {
     const { className, onClick } = props;
     return (
@@ -73,6 +93,7 @@ function Home() {
     );
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const PrevArrow = (props: any) => {
     const { className, onClick } = props;
     return (
@@ -83,15 +104,19 @@ function Home() {
     );
   };
 
-  // Configuración del slider
+  // Animación para los productos
+  const fadeInAnimation = {
+    animation: "fadeIn 0.5s ease-in",
+  };
+
   const sliderSettings = {
     dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 3,
-    nextArrow: <NextArrow />, // Flecha siguiente personalizada
-    prevArrow: <PrevArrow />, // Flecha anterior personalizada
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
     responsive: [
       {
         breakpoint: 1024,
@@ -111,6 +136,37 @@ function Home() {
   return (
     <>
       <Navbar />
+      <Banner />
+      {/* Sección de categorías */}
+      <div className="categories-section" style={{ marginTop: "50px" }}>
+        <h3
+          className="d-flex justify-content-center"
+          style={{ color: "GrayText" }}
+        >
+          Categorías Populares
+        </h3>
+        <Row className="justify-content-center">
+          {categories.map((category) => (
+            <Col
+              key={category.id}
+              className="category-item"
+              md={3}
+              style={{ margin: "10px 0" }}
+            >
+              <div
+                className="category-card"
+                style={{
+                  textAlign: "center",
+                  padding: "10px",
+                  border: "1px solid lightgray",
+                }}
+              >
+                <h5>{category.name}</h5>
+              </div>
+            </Col>
+          ))}
+        </Row>
+      </div>
       <div
         className="d-flex justify-content-center"
         style={{ padding: "20px" }}
@@ -122,9 +178,11 @@ function Home() {
           >
             Creamos una experiencia...
           </h2>
+
+          {/* Slider de productos */}
           <Slider {...sliderSettings}>
             {products.map((product) => (
-              <Col key={product.id}>
+              <Col key={product.id} style={fadeInAnimation}>
                 <StoreItem {...product} />
               </Col>
             ))}

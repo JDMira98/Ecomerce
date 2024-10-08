@@ -16,7 +16,7 @@ const Navbar: React.FC = () => {
 
   return (
     <NavbarBs sticky="top" className="bg-white shadow-sm mb-3">
-      <Container>
+      <Container fluid>
         {/* Logo link a la página principal */}
         <Link to="/" className="navbar-brand">
           <img
@@ -32,7 +32,7 @@ const Navbar: React.FC = () => {
           id="navbarNav"
         >
           {/* Menú de la derecha */}
-          <ul className="navbar-nav ms-auto">
+          <ul className="navbar-nav ms-auto d-flex align-items-center">
             <li className="nav-item me-4">
               {/* Botón del carrito de compras */}
               {cartQuantity > 0 && (

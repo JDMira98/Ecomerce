@@ -3,6 +3,7 @@ export const PublicRoutes = {
   REGISTER: "register",
   ORDER: "order",
   HOME: "home",
+  SHOP: "shop",
 };
 
 export const PrivateRoutes = {
@@ -17,5 +18,7 @@ export const AdminRoutes = {
   DASHBOARD: "dashboard",
   USERS: "users",
   PRODUCTS: "products",
+  CATEGORIES: "categories",
   HOME: "home",
+  SHOP: "shop",
 };

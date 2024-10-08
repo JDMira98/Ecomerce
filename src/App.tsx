@@ -15,9 +15,11 @@ const Login = lazy(() => import("./pages/Login/Login"));
 const Register = lazy(() => import("./pages/Register/Register"));
 const Private = lazy(() => import("./pages/Private/Private"));
 const Home = lazy(() => import("./pages/Home/Home"));
+const Shop = lazy(() => import("./pages/Shop/Shop"));
 const Order = lazy(() => import("./pages/Order/Order"));
 const Profile = lazy(() => import("./pages/Private/Profile/Profile"));
 const Products = lazy(() => import("./pages/Private/Products/Products"));
+const Categories = lazy(() => import("./pages/Private/Categories/Categories"));
 
 
 
@@ -32,6 +34,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path={PublicRoutes.LOGIN} element={<Login />} />
                 <Route path={PublicRoutes.REGISTER} element={<Register />} />
+                <Route path={PublicRoutes.SHOP} element={<Shop />} />
                 <Route path="/product/:id" element={<ProductDetail />} />
                 <Route path={PublicRoutes.ORDER} element={<Order />} />
                 <Route element={<AuthGuard privateValidation={true} />}>
@@ -47,6 +50,10 @@ function App() {
                   <Route path={AdminRoutes.DASHBOARD} element={<Dashboard />} />
                   <Route path={AdminRoutes.USERS} element={<Users />} />
                   <Route path={AdminRoutes.PRODUCTS} element={<Products />} />
+                  <Route
+                    path={AdminRoutes.CATEGORIES}
+                    element={<Categories />}
+                  />
                   <Route path={AdminRoutes.PROFILE} element={<Profile />} />
                 </Route>
               </RoutesWithNotFound>

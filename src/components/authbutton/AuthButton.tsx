@@ -18,24 +18,31 @@ function AuthButton() {
     dispatch(resetUser());
     navigate("/", { replace: true });
   };
-    const HandleAuthLogin = () => {
-      clearLocalStorage(UserKey);
-      dispatch(resetUser());
-      navigate("/" + PublicRoutes.LOGIN, { replace: true });
-    };
+
+  const HandleAuthLogin = () => {
+    clearLocalStorage(UserKey);
+    dispatch(resetUser());
+    navigate("/" + PublicRoutes.LOGIN, { replace: true });
+  };
 
   return (
-    <>
+    <div className="d-flex justify-content-center align-items-center">
       {userId !== 0 ? (
-        <button className="btn btn-outline-danger" onClick={HandleAuthLogout}>
+        <button
+          className="btn btn-outline-danger me-2"
+          onClick={HandleAuthLogout}
+        >
           <i className="bi bi-box-arrow-right"></i> Logout
         </button>
       ) : (
-        <button className="btn btn-outline-primary" onClick={HandleAuthLogin}>
+        <button
+          className="btn btn-outline-primary me-2"
+          onClick={HandleAuthLogin}
+        >
           <i className="bi bi-box-arrow-in-right"></i> Login
         </button>
       )}
-    </>
+    </div>
   );
 }
 

@@ -10,6 +10,11 @@ const GetProduct = baseUrl + "Products/getProduct";
 const UpdateProduct = baseUrl + "Products/UpdateProduct";
 const DisableProduct = baseUrl + "Products/DisableProduct";
 const EnableProduct = baseUrl + "Products/EnableProduct";
+const GetCategories = baseUrl + "Categories/getCategorie";
+const AddCategorie = baseUrl + "Categories/AddCategorie";
+const UpdateCategorie = baseUrl + "Categories/UpdateCategorie";
+const EnableCategorie = baseUrl + "Categories/EnableCategorie";
+const DisableCategorie = baseUrl + "Categories/DisableCategorie";
 
 interface LoginData {
   email: string;
@@ -40,6 +45,13 @@ interface Product {
   images: string; // Cambié a File para que coincida con el archivo de imagen
   desc: string;
   category: string;
+  active: number;
+}
+
+interface Categorie {
+  id: number;
+  name: string;
+  description: string;
   active: number;
 }
 
@@ -176,6 +188,9 @@ export const GetProducts= async (id: number) => {
   return response.json();
 };
 
+
+
+
 export const UpdateProductPost = async (formData: Product) => {
   const response = await fetch(UpdateProduct, {
     method: "POST",
@@ -210,6 +225,87 @@ export const DisableProductPost = async (id: number) => {
 
 export const EnableProductPost = async (id: number) => {
   const response = await fetch(EnableProduct, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(id),
+  });
+
+  if (!response.ok) {
+    console.log(response);
+    throw new Error("Network response was not ok");
+  }
+};
+
+export const GetCategoriesGET = async (id: number) => {
+  const response = await fetch(`${GetCategories}?id=${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    console.log(response);
+    throw new Error("Network response was not ok");
+  }
+  console.log(response);
+  return response.json();
+};
+
+export const AddCategoriePost = async (formData: Categorie) => {
+  const response = await fetch(AddCategorie, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData), // Usar el FormData aquí
+    // No incluimos el header "Content-Type" porque FormData lo gestiona automáticamente
+  });
+
+  if (!response.ok) {
+    console.log(response);
+    throw new Error("Network response was not ok");
+  }
+
+  return response.json();
+};
+
+export const UpdateCategoriePost = async (formData: Categorie) => {
+  const response = await fetch(UpdateCategorie, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  });
+
+  if (!response.ok) {
+    console.log(response);
+    throw new Error("Network response was not ok");
+  }
+
+  return response.json();
+};
+
+export const DisableCategoriePost = async (id: number) => {
+  const response = await fetch(DisableCategorie, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(id),
+  });
+
+  if (!response.ok) {
+    console.log(response);
+    throw new Error("Network response was not ok");
+  }
+};
+
+export const EnablecategoriePost = async (id: number) => {
+  const response = await fetch(EnableCategorie, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

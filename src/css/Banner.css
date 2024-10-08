@@ -1,0 +1,50 @@
+.banner-container {
+    background-color: #f5f5f5;
+    /* Color gris claro */
+    padding: 60px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 400px;
+    position: relative;
+}
+
+.banner-content {
+    color: black;
+    /* Texto en negro */
+    max-width: 800px;
+    padding: 20px;
+}
+
+.banner-title {
+    font-size: 3rem;
+    font-weight: bold;
+    color: black;
+    /* Título en negro */
+    margin-bottom: 20px;
+}
+
+.banner-subtitle {
+    font-size: 1.5rem;
+    color: gray;
+    /* Subtítulo en gris */
+    margin-bottom: 40px;
+}
+
+.banner-button {
+    background-color: black;
+    /* Botón en negro */
+    color: white;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    transition: background-color 0.3s ease;
+    border: none;
+}
+
+.banner-button:hover {
+    background-color: gray;
+    /* Cambiar a gris cuando se pase el cursor */
+    color: white;
+}

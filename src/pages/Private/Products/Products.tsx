@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Button, Card } from "react-bootstrap";
+import { Modal, Button, Card, Form} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../../css/Products.css";
 import Navbar from "../../../components/navbar/Navbar";
@@ -13,6 +13,7 @@ import {
   UpdateProductPost,
   DisableProductPost,
   EnableProductPost,
+  GetCategoriesGET,
 } from "../../../services";
 import Alert from "../../../components/alert/Alert";
 import "bootstrap-icons/font/bootstrap-icons.css"; // Bootstrap Icons
@@ -27,6 +28,13 @@ interface Product {
   active: number;
 }
 
+    interface Category {
+      id: number;
+      name: string;
+      desc: string;
+      active: number;
+    }
+
 export default function ProductsPage() {
   const [showModal, setShowModal] = useState(false);
   const [editMode, setEditMode] = useState(false);
@@ -37,42 +45,61 @@ export default function ProductsPage() {
   const [alertType, setAlertType] = useState<"success" | "error" | "warning">(
     "success"
   );
+  const [searchTerm, setSearchTerm] = useState<string>(""); // Para el buscador
+  const [categoryFilter, setCategoryFilter] = useState<string>(""); // Para el filtro por categoría
 
-useEffect(() => {
-  const fetchProducts = async () => {
-    try {
-      const response = await GetProducts(0);
-      if (response.products.length > 0) {
-        // Mapeamos los productos para asegurarnos de que las imágenes estén deserializadas
-        const deserializedProducts = response.products.map((product: Product) => {
-          // Intentamos deserializar images solo si es un string
-          let images;
-          if (typeof product.images === "string") {
-            try {
-              images = JSON.parse(product.images); // Intentamos deserializar
-            } catch (error) {
-              console.error("Error parsing images:", error);
-              images = []; // Asignar un array vacío si hay un error
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await GetProducts(0);
+        if (response.products.length > 0) {
+          // Mapeamos los productos para asegurarnos de que las imágenes estén deserializadas
+          const deserializedProducts = response.products.map(
+            (product: Product) => {
+              // Intentamos deserializar images solo si es un string
+              let images;
+              if (typeof product.images === "string") {
+                try {
+                  images = JSON.parse(product.images); // Intentamos deserializar
+                } catch (error) {
+                  console.error("Error parsing images:", error);
+                  images = []; // Asignar un array vacío si hay un error
+                }
+              } else {
+                images = product.images; // Si ya es un array, lo usamos directamente
+              }
+
+              return {
+                ...product,
+                images, // Usar el array de imágenes
+              };
             }
-          } else {
-            images = product.images; // Si ya es un array, lo usamos directamente
-          }
+          );
 
-          return {
-            ...product,
-            images, // Usar el array de imágenes
-          };
-        });
-
-        setProducts(deserializedProducts);
+          setProducts(deserializedProducts);
+        }
+      } catch (error) {
+        console.error("Error fetching products:", error);
       }
-    } catch (error) {
-      console.error("Error fetching products:", error);
-    }
-  };
+    };
 
-  fetchProducts();
-}, []);
+    fetchProducts();
+  }, []);
+
+  const [categories, setCategories] = useState<Category[]>([]); // Estado para categorías
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await GetCategoriesGET(0); // Llama al servicio para obtener las categorías
+        setCategories(response.categories);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   const [newProduct, setNewProduct] = useState({
     name: "",
@@ -125,6 +152,16 @@ useEffect(() => {
     }));
   };
 
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleCategoryFilterChange = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setCategoryFilter(e.target.value);
+  };
+
   // Funciones para manejar las URLs de imágenes
   const handleImageChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -152,6 +189,15 @@ useEffect(() => {
       images: updatedImages,
     }));
   };
+
+  const filteredProducts = products.filter((product) => {
+    const matchesSearch = product.name
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const matchesCategory =
+      categoryFilter === "" || product.category === categoryFilter;
+    return matchesSearch && matchesCategory;
+  });
 
   const handleSaveProduct = async () => {
     try {
@@ -243,6 +289,31 @@ useEffect(() => {
       <div className="d-flex">
         <Sidebar userRole={userRole} />
         <div className="content-container p-4">
+          <div className="mb-3">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Buscar productos"
+              value={searchTerm}
+              onChange={handleSearchChange}
+            />
+          </div>
+
+          <div className="mb-3">
+            <Form.Select
+              onChange={handleCategoryFilterChange}
+              value={categoryFilter}
+            >
+              <option value="">Filtrar por categoría</option>
+              {[...new Set(products.map((product) => product.category))].map(
+                (category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                )
+              )}
+            </Form.Select>
+          </div>
           <div className="d-flex justify-content-start mb-3">
             <Button
               variant="primary"
@@ -253,12 +324,11 @@ useEffect(() => {
               Agregar Producto
             </Button>
           </div>
-
           {products.length === 0 ? (
             <h1>No hay productos disponibles</h1>
           ) : (
             <div className="row">
-              {products
+              {filteredProducts
                 .sort((a, b) => b.active - a.active)
                 .map((product) => (
                   <div className="col-md-4 mb-4" key={product.id}>
@@ -278,7 +348,9 @@ useEffect(() => {
                       )}
                       <Card.Body>
                         <Card.Title>{product.name}</Card.Title>
-                        <Card.Text>{product.category}</Card.Text>
+                        <Card.Text style={{ marginTop: "20px" }}>
+                          {product.category}
+                        </Card.Text>
                         <Card.Text>
                           <strong>Precio:</strong> ${product.price}
                         </Card.Text>
@@ -410,13 +482,21 @@ useEffect(() => {
               <label htmlFor="category" className="form-label">
                 Categoría
               </label>
-              <input
-                type="text"
+              <select
                 className="form-control"
                 id="category"
                 value={newProduct.category}
                 onChange={handleChange}
-              />
+              >
+                <option value="">Selecciona una categoría</option>
+                {categories
+                  .filter((category) => category.active === 1) // Filtra solo las categorías activas
+                  .map((category) => (
+                    <option key={category.id} value={category.name}>
+                      {category.name}
+                    </option>
+                  ))}
+              </select>
             </div>
           </form>
         </Modal.Body>

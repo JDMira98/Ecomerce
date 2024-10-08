@@ -5,6 +5,7 @@ import { Button, Form } from "react-bootstrap";
 import "../../css/order.css";
 import Navbar from "../../components/navbar/Navbar";
 import { useShoppingCart } from "../../context/ShoppingCartContext";
+import { Link } from "react-router-dom";
 
 interface Product {
   id: number;
@@ -76,11 +77,13 @@ const Order: React.FC = () => {
             const selectedItem = cartItems.find((p) => p.id === product.id); // Cambiado a `p.id`
             return (
               <div key={product.id} className="pedido-detalle">
-                <img
-                  src={JSON.parse(product.images)[0]}
-                  alt={product.name}
-                  className="pedido-imagen"
-                />
+                <Link to={`/product/${product.id}`}>
+                  <img
+                    src={JSON.parse(product.images)[0]}
+                    alt={product.name}
+                    className="pedido-imagen"
+                  />
+                </Link>
                 <h3>{product.name}</h3>
                 <p>Cantidad: {selectedItem?.quantity}</p>{" "}
                 {/* Asegúrate que `quantity` está definido */}

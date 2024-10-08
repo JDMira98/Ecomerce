@@ -43,36 +43,41 @@ export function ShoppingCart({ isOpen }: ShoppingCartProps) {
             products.find((i) => i.id === cartItem.id);
             return <CartItem key={cartItem.id} {...cartItem} />;
           })}
-          {cartItems.length > 0 ? 
-          <div className="ms-auto fw-bold fs-5">
-            Total{" "}
-            {formatCurrency(
-              cartItems.reduce((total, cartItem) => {
-                const item = products.find((i) => i.id === cartItem.id);
-                return total + (item?.price || 0) * cartItem.quantity;
-              }, 0)
-            )}
-          </div> : null }
+          {cartItems.length > 0 ? (
+            <div className="ms-auto fw-bold fs-5">
+              Total{" "}
+              {formatCurrency(
+                cartItems.reduce((total, cartItem) => {
+                  const item = products.find((i) => i.id === cartItem.id);
+                  return total + (item?.price || 0) * cartItem.quantity;
+                }, 0)
+              )}
+            </div>
+          ) : null}
         </Stack>
 
-        {cartItems.length > 0 ? 
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <a
-            style={{
-              textDecoration: "none",
-              color: "white",
-              width: "100%",
-              textAlign: "center", // Asegúrate de que el texto esté centrado
-              padding: "10px 0", // Agrega un padding para mejorar el clic
-              backgroundColor: "black", // Establece un color de fondo si es necesario
-              marginTop:"25px"
-            }}
-            className="toBuybutton"
-            href="#/order"
-          >
-            Comprar
-          </a>
-        </div> : <h3>No hay productos en el carrito</h3>}
+        {cartItems.length > 0 ?  (
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <a 
+              style={{
+                textDecoration: "none",
+                color: "white",
+                width: "100%",
+                textAlign: "center", // Asegúrate de que el texto esté centrado
+                padding: "10px 0", // Agrega un padding para mejorar el clic
+                backgroundColor: "black", // Establece un color de fondo si es necesario
+                marginTop: "25px",
+              }}
+              className="toBuybutton"
+              href="#/order"
+            >
+              Comprar
+            </a>
+            
+          </div>
+        ) : (
+          <h3>No hay productos en el carrito</h3>
+        )}
       </Offcanvas.Body>
     </Offcanvas>
   );

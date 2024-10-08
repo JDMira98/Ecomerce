@@ -45,6 +45,16 @@ function Sidebar({ userRole }) {
                 Productos
               </NavLink>
             </li>
+            <li>
+              <NavLink
+                to="../../private/Categories"
+                className={({ isActive }) =>
+                  isActive ? "nav-link active" : "nav-link"
+                }
+              >
+                Categorias
+              </NavLink>
+            </li>
           </>
         )}
       </ul>
