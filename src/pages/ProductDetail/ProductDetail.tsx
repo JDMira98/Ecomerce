@@ -7,6 +7,7 @@ import { useShoppingCart } from "../../context/ShoppingCartContext";
 import CartControl from "../../components/StoreItemButton/StoreItemButton";
 import { GetProducts } from "../../services";
 import BuyButton from "../../components/BuyButton/BuyButton"; // Asegúrate de importar el componente
+import { Footer } from "../../components/Footer";
 
 interface Product {
   id: number;
@@ -122,6 +123,7 @@ const ProductDetail = () => {
           )}
         </div>
       </div>
+      <Footer />
     </>
   );
 };

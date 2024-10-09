@@ -10,6 +10,7 @@ import "../../../css/profile.css"; // Importa el archivo CSS para estilos person
 import Alert from "../../../components/alert/Alert";
 import { Navigate } from "react-router-dom";
 import { UserInfo, Roles } from "../../../models";
+import { Footer } from "../../../components/Footer";
 
 const Profile: React.FC = () => {
 
@@ -108,7 +109,7 @@ const Profile: React.FC = () => {
   return (
     <>
       <Navbar />
-      <div className="d-flex">
+      <div style={{marginBottom:"200px"}} className="d-flex">
         {/* Sidebar con el rol como parámetro */}
         <Sidebar userRole={userRole} />
         <div className="container mt-5 d-flex justify-content-center align-items-top">
@@ -165,6 +166,7 @@ const Profile: React.FC = () => {
           {showAlert && <Alert message={alertMessage} type={alertType} />}
         </div>
       </div>
+      <Footer />
     </>
   );
 };

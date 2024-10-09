@@ -3,6 +3,7 @@ import Sidebar from "../../../components/sidebar/Sidebar";
 import { useSelector } from "react-redux";
 import { UserInfo, Roles} from "../../../models";
 import { Navigate } from "react-router-dom";
+import { Footer } from "../../../components/Footer";
 
 const Dashboard: React.FC = () => {
   const userRole = useSelector((state: UserInfo) => state.user.rol);
@@ -12,7 +13,7 @@ const Dashboard: React.FC = () => {
   return (
     <>
       <Navbar />
-      <div className="d-flex">
+      <div style={{marginBottom:"200px"}} className="d-flex">
         {/* Sidebar con el rol como parámetro */}
         <Sidebar userRole={userRole} />
 
@@ -47,6 +48,7 @@ const Dashboard: React.FC = () => {
           </section>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

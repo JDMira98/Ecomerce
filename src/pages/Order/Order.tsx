@@ -6,6 +6,7 @@ import "../../css/order.css";
 import Navbar from "../../components/navbar/Navbar";
 import { useShoppingCart } from "../../context/ShoppingCartContext";
 import { Link } from "react-router-dom";
+import { Footer } from "../../components/Footer";
 
 interface Product {
   id: number;
@@ -171,6 +172,7 @@ const Order: React.FC = () => {
           </Button>
         </Form>
       </div>
+      <Footer />
     </>
   );
 };

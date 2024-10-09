@@ -7,6 +7,7 @@ import Sidebar from "../../../components/sidebar/Sidebar";
 import { Navigate } from "react-router-dom";
 import { UserInfo, Roles } from "../../../models";
 import { useSelector } from "react-redux";
+import { Footer } from "../../../components/Footer";
 import {
   AddProductPost,
   GetProducts,
@@ -509,6 +510,7 @@ export default function ProductsPage() {
           </Button>
         </Modal.Footer>
       </Modal>
+      <Footer />
     </>
   );
 }

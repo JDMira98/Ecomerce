@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { Roles, UserInfo } from "../../../models";
 import { Navigate } from "react-router-dom";
 import UserTable from "../../../components/UserTable/UserTable"; // Importa el nuevo componente
+import { Footer } from "../../../components/Footer";
 
 const Users: React.FC = () => {
   const userRole = useSelector((state: UserInfo) => state.user.rol);
@@ -23,6 +24,7 @@ const Users: React.FC = () => {
           <UserTable />
         </div>
       </div>
+    <Footer />
     </>
   );
 };

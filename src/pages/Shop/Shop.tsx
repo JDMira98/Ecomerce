@@ -4,6 +4,7 @@ import { GetProducts, GetCategoriesGET } from "../../services";
 import { StoreItem } from "../../components/StoreItem";
 import "../../css/Shop.css";
 import Navbar from "../../components/navbar/Navbar";
+import { Footer } from "../../components/Footer";
 
 interface Product {
   id: number;
@@ -129,6 +130,7 @@ const Shop = () => {
           )}
         </Row>
       </div>
+      <Footer />
     </>
   );
 };

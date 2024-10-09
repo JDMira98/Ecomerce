@@ -10,6 +10,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import "../../css/Slider.css";
 import WhatsAppButton from "../../components/WhatsappButton/WhatsappButton";
 import Banner from "../../components/Banner/Banner";
+import { Footer } from "../../components/Footer";
 
 function Home() {
   const [products, setProducts] = useState([]);
@@ -180,7 +181,7 @@ useEffect(() => {
           </h2>
 
           {/* Slider de productos */}
-          <Slider {...sliderSettings}>
+          <Slider style={{ marginBottom: "200px" }} {...sliderSettings}>
             {products.map((product) => (
               <Col key={product.id} style={fadeInAnimation}>
                 <StoreItem {...product} />
@@ -190,6 +191,7 @@ useEffect(() => {
         </div>
         <WhatsAppButton />
       </div>
+      <Footer />
     </>
   );
 }

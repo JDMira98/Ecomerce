@@ -8,6 +8,7 @@ import { clearLocalStorage } from "../../utilities";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Alert from "../../components/alert/Alert";
 import "../../css/register.css"
+import { Footer } from "../../components/Footer";
 
 
 const Register: React.FC = () => {
@@ -120,68 +121,71 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100">
-      <div className="col-md-4 principalContainer">
-        <h3 className="text-center">Registrarse</h3>
-        <form autoComplete="off" onSubmit={handleSubmit}>
-          <div className="form-group mb-3">
-            <label htmlFor="name">Nombre</label>
-            <input
-              type="text"
-              className="form-control input"
-              id="name"
-              placeholder="Nombre completo"
-              value={formValues.name}
-              onChange={handleChange}
-            />
+    <>
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <div className="col-md-4 principalContainer">
+          <h3 className="text-center">Registrarse</h3>
+          <form autoComplete="off" onSubmit={handleSubmit}>
+            <div className="form-group mb-3">
+              <label htmlFor="name">Nombre</label>
+              <input
+                type="text"
+                className="form-control input"
+                id="name"
+                placeholder="Nombre completo"
+                value={formValues.name}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-group mb-3">
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                className="form-control input"
+                id="email"
+                placeholder="Enter email"
+                value={formValues.email}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-group mb-3">
+              <label htmlFor="phone">Teléfono</label>
+              <input
+                type="text"
+                className="form-control input"
+                id="phone"
+                placeholder="Teléfono"
+                value={formValues.phone}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-group mb-3">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                autoComplete="new-password"
+                className="form-control input"
+                id="password"
+                placeholder="Crea una contraseña"
+                value={formValues.password}
+                onChange={handleChange}
+              />
+            </div>
+            {error && <p className="text-danger">{error}</p>}
+            <button type="submit" className="btn btn-primary w-100">
+              Registrarse
+            </button>
+          </form>
+          <div className="text-center mt-3">
+            <p>
+              ¿Ya tienes una cuenta? <a href="#/login">Iniciar sesión.</a>
+            </p>
           </div>
-          <div className="form-group mb-3">
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              className="form-control input"
-              id="email"
-              placeholder="Enter email"
-              value={formValues.email}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="form-group mb-3">
-            <label htmlFor="phone">Teléfono</label>
-            <input
-              type="text"
-              className="form-control input"
-              id="phone"
-              placeholder="Teléfono"
-              value={formValues.phone}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="form-group mb-3">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              autoComplete="new-password"
-              className="form-control input"
-              id="password"
-              placeholder="Crea una contraseña"
-              value={formValues.password}
-              onChange={handleChange}
-            />
-          </div>
-          {error && <p className="text-danger">{error}</p>}
-          <button type="submit" className="btn btn-primary w-100">
-            Registrarse
-          </button>
-        </form>
-        <div className="text-center mt-3">
-          <p>
-            ¿Ya tienes una cuenta? <a href="#/login">Iniciar sesión.</a>
-          </p>
+          {showAlert && <Alert message={alertMessage} type={alertType} />}
         </div>
-        {showAlert && <Alert message={alertMessage} type={alertType} />}
       </div>
-    </div>
+      <Footer />
+    </>
   );
 };
 

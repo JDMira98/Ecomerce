@@ -7,6 +7,7 @@ import { loginUser } from "../../services";
 import { clearLocalStorage } from "../../utilities";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../css/login.css"
+import { Footer } from "../../components/Footer";
 
 const Login: React.FC = () => {
   const [formValues, setFormValues] = useState<{
@@ -103,6 +104,7 @@ const Login: React.FC = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

@@ -12,6 +12,7 @@ import {
 } from "../../../services";
 import Navbar from "../../../components/navbar/Navbar";
 import Sidebar from "../../../components/sidebar/Sidebar";
+import { Footer } from "../../../components/Footer";
 
 interface Category {
   id: number;
@@ -145,7 +146,7 @@ const CategoriesPage: React.FC = () => {
   return (
     <>
       <Navbar />
-      <div className="d-flex">
+      <div style={{marginBottom:"200px"}} className="d-flex">
         <Sidebar userRole={userRole} />
         <div className="container">
           <h2>Categorías</h2>
@@ -251,6 +252,7 @@ const CategoriesPage: React.FC = () => {
           </Modal>
         </div>
       </div>
+      <Footer />
     </>
   );
 };
